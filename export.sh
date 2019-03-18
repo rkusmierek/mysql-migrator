@@ -9,5 +9,8 @@ ENV_FILE=${BASEDIR}/env-src
 . ${ENV_FILE}
 
 TS=`date '+%Y%m%d_%H%M%S'`
+BACKUP=backup_${TS}.sql.gz
 
-mysqldump --protocol=TCP --compress --host=${DB_HOST} --port=${DB_PORT} --user=${DB_USER} --password=${DB_PASS} ${DB_NAME} | gzip > backup_${TS}.sql.gz
+mysqldump --protocol=TCP --compress --host=${DB_HOST} --port=${DB_PORT} --user=${DB_USER} --password=${DB_PASS} ${DB_NAME} | gzip > ${BACKUP}
+
+[ "${PIPESTATUS}" -eq "0" ] || rm ${BACKUP}
